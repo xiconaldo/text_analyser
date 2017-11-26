@@ -267,7 +267,7 @@ void SintaticAnalyser::checkForEarlyEndOfFile(){
 		throw SintaticErrorException(currentToken.line_, "Unexpected end of file");
 }
 
-const SintaticTree& SintaticAnalyser::getSintaticTree(){
+SintaticTree& SintaticAnalyser::getSintaticTree(){
 	return root_;
 }
 

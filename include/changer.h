@@ -25,8 +25,8 @@ class Changer{
 
 public:
     Changer(const std::string& config_file);
-    void analyse(const SintaticTree& root);
-    void search(const SintaticTree& root);
+    void analyse(SintaticTree& root);
+    void search(SintaticTree& root);
     void printResults();
     bool success();
     std::vector<std::string> split(const std::string& str, const std::string& delimiter = " ");

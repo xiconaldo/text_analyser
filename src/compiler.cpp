@@ -21,7 +21,7 @@ void Compiler::analyse(const std::string& code){
 	parser->parse(std::cin);
 	std::vector< Token > tokens = parser->getTokenList();
 	sintatic->analyse(tokens);
-	const SintaticTree& tree =  sintatic->getSintaticTree();
+	SintaticTree& tree =  sintatic->getSintaticTree();
 	changer->analyse(tree);
 }
 

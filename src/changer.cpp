@@ -73,7 +73,7 @@ Changer::Changer(const std::string& config_file){
 
 }
 
-void Changer::analyse(const SintaticTree& root){
+void Changer::analyse(SintaticTree& root){
 
     try{
         search(root);
@@ -86,7 +86,7 @@ void Changer::analyse(const SintaticTree& root){
 
 }
 
-void Changer::search(const SintaticTree& node){
+void Changer::search(SintaticTree& node){
 
     if (node.token_.type_ == 6){
 		for( auto word_list : common_name){
@@ -94,18 +94,51 @@ void Changer::search(const SintaticTree& node){
 			auto finded = word_list.find( node.token_.token_ );
 
 			if(finded != word_list.end() ){
-				
-				//node.token_.token_ = (*finded);
 
+				srand(time(NULL));
+				int r = rand()%word_list.size();
+				auto it = word_list.begin();
+				for(int i = 0; i < r; i++) it++;
+				node.token_.token_ = *it;
 				break;
 			}
-
 		}
-    }
+	}
+	else if (node.token_.type_ == 1){
+		for( auto word_list : adjetive){
+
+			auto finded = word_list.find( node.token_.token_ );
+
+			if(finded != word_list.end() ){
+
+				srand(time(NULL));
+				int r = rand()%word_list.size();
+				auto it = word_list.begin();
+				for(int i = 0; i < r; i++) it++;
+				node.token_.token_ = *it;
+				break;
+			}
+		}
+	}
+	else if (node.token_.type_ == 20){
+		for( auto word_list : verb){
+
+			auto finded = word_list.find( node.token_.token_ );
+
+			if(finded != word_list.end() ){
+
+				srand(time(NULL));
+				int r = rand()%word_list.size();
+				auto it = word_list.begin();
+				for(int i = 0; i < r; i++) it++;
+				node.token_.token_ = *it;
+				break;
+			}
+		}
+	}
 
 	if(!node.token_.token_.empty())
 		std::cout << node.token_.token_.substr(0) << " ";
-    
   
     for(uint i = 0; i < node.children_.size(); i++){
         search(node.children_[i]);
