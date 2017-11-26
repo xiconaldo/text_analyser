@@ -1,9 +1,10 @@
 #include "compiler.h"
 
-Compiler::Compiler(const std::string& grammar_file){
+Compiler::Compiler(const std::string& grammar_file, const std::string& words_file){
 
 	parser = new Parser( grammar_file );
 	sintatic = new SintaticAnalyser( grammar_file );
+	changer = new Changer(words_file);
 	
 }
 
@@ -11,6 +12,7 @@ Compiler::~Compiler(){
 	
 	delete parser;
 	delete sintatic;
+	delete changer;
 	
 }
 
@@ -20,6 +22,7 @@ void Compiler::analyse(const std::string& code){
 	std::vector< Token > tokens = parser->getTokenList();
 	sintatic->analyse(tokens);
 	const SintaticTree& tree =  sintatic->getSintaticTree();
+	changer->analyse(tree);
 }
 
 void Compiler::printResults(){
