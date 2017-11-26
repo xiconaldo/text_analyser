@@ -76,10 +76,13 @@ Changer::Changer(const std::string& config_file){
 void Changer::analyse(SintaticTree& root){
 
     try{
+		std::cout << "\nOriginal: ";
+		print(root, false);
 		search(root);
 		swapNodes(root);
 		std::cout << std::endl;
-		print(root);
+		std::cout << "Changed: ";
+		print(root, true);
 		std::cout << std::endl;
     }
     catch( SemanticErrorException err){
@@ -200,13 +203,29 @@ bool Changer::success(){
 	return error_info_.empty();
 }
 
-void Changer::print(SintaticTree& node){
+void Changer::print(SintaticTree& node, bool change){
 
-	if(!node.token_.token_.empty())
-		std::cout << node.token_.token_.substr(0) << " ";
+	static bool first = true;
+
+	if(!change){
+		if(!node.token_.token_.empty())
+			std::cout << node.token_.token_ << " ";
+	}
+	else if(!node.token_.token_.empty()){
+		if(first && islower(node.token_.token_[0] ))
+			std::cout << (char)toupper(node.token_.token_[0]) << node.token_.token_.substr(1) << " ";
+		else if(node.token_.type_ != 30 && isupper(node.token_.token_[0] ) ){
+			std::cout << (char)tolower(node.token_.token_[0]) << node.token_.token_.substr(1) << " ";
+		}
+		else{
+			std::cout << node.token_.token_ << " ";
+		}
+
+		first = false;
+	}
   
     for(uint i = 0; i < node.children_.size(); i++){
-        print(node.children_[i]);
+        print(node.children_[i], change);
     }
 }
 

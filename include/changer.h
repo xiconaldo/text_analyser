@@ -30,7 +30,7 @@ public:
     void search(SintaticTree& root);
     void printResults();
     bool success();
-    void print(SintaticTree& node);
+    void print(SintaticTree& node, bool change);
     std::vector<std::string> split(const std::string& str, const std::string& delimiter = " ");
 };
 
