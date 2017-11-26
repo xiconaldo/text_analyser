@@ -2,7 +2,7 @@
 
 Compiler::Compiler(const std::string& grammar_file){
 
-	parser = new Parser;
+	parser = new Parser( grammar_file );
 	sintatic = new SintaticAnalyser( grammar_file );
 	
 }

@@ -22,11 +22,11 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) $(INC) $^ -c -o $@
 
 debug:
-	$(CXX) $(CXXFLAGSDEBUG) $(INC) *.cpp -o $(EXEC)
+	gdb ./bin/compiler
 
 clean:
 	rm -f build/* $(EXEC)
 
 test:
 	./bin/POSTagger/run-Tagger.sh > output.txt < input.txt
-	./bin/compiler conf/grammar.conf symbol < output.txt
+	./bin/compiler conf/grammar_v3.conf tree < output.txt

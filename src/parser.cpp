@@ -1,11 +1,29 @@
 #include "parser.h"
 
-Parser::Parser(){
-    type_map_.insert({{"PREP", 0}, {"CN", 1}, {"PRS", 2},
-                      {"V", 3}, {"ADJ", 4}, {"PNT", 5}});
+Parser::Parser(const std::string& config_file){
 
-    std::string trash[] = {"PREP", "CN", "PRS", "V", "ADJ", "PNT"}; 
-    token_type_strings_.insert(token_type_strings_.begin(), trash, trash+6); 
+    std::ifstream config{ config_file };
+	if(!config.is_open()){
+		std::cerr << "Can't open file " << config_file;
+	}
+
+    std::vector<std::string> tmp;
+    int code = 0;
+    type_map_.insert({ "NO_TYPE", code++ });
+    token_type_strings_.push_back("NO_TYPE");
+    std::string line;
+    std::string tmp_line;
+
+    while( getline(config, line) ){
+        if(line.substr(0, 2) == "#t"){
+
+            tmp_line = line.substr(3);
+            if(tmp_line.back() < 31) tmp_line.pop_back();
+
+            type_map_[tmp_line] = code++;
+            token_type_strings_.push_back(tmp_line);
+		}
+    } 
 }
 
 std::vector<std::string> Parser::split(const std::string& str, const std::string& delimiter){

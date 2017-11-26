@@ -95,13 +95,22 @@ SintaticAnalyser::SintaticAnalyser(const std::string& config_file){
 		std::istringstream line_stream(line);
 
 		line_stream >> non_terminal_id;
+	
 		rules_id_[-non_terminal_id].push_back( rules_def_.size() );
 
 		std::vector< Token > new_rule;
 		int token_type;
 
+		std::string trash = line_stream.str();
+		if(trash.back() < 31) trash.pop_back();
+		line_stream = std::istringstream{trash};
+
+		line_stream >> non_terminal_id;
+
 		while(true){
+
 			line_stream >> token_type;
+
 			if(!line_stream) break;
 
 			if( token_type ){
@@ -122,6 +131,35 @@ SintaticAnalyser::SintaticAnalyser(const std::string& config_file){
 
 	SintaticTree::token_type_strings_ = token_type_strings_;
 	SintaticTree::non_terminal_strings_ = non_terminal_strings_;
+
+	// for( auto x : SintaticTree::token_type_strings_  )
+	// 	std::cout << x << "\n";
+
+	// std::cout << "\n";
+
+	// for( auto x : SintaticTree::non_terminal_strings_  )
+	// 	std::cout << x << "\n";
+	
+	// std::cout << "\n";
+
+	int h = 0;
+	for(auto x : rules_id_){
+		std::cout << h++ << " ";
+		for( auto y : x ){
+			std::cout << y << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	h = 0;
+	for(auto x : rules_def_){
+		std::cerr << h++ << " # ";
+		for( auto y : x ){
+			std::cout << "{ " << y.token_ << ", " << y.type_ << " } ";
+		}
+		std::cout << std::endl;
+	}
+
 }
 
 void SintaticAnalyser::analyse(const std::vector< Token >& token_input){
@@ -148,6 +186,7 @@ void SintaticAnalyser::analyse(const std::vector< Token >& token_input){
 void SintaticAnalyser::expandNonTerminal(int non_terminal_id, SintaticTree& node){
 
 	node.token_ = {non_terminal_id, "", 1};
+	//std::cout << currentToken.token_ << std::endl;
 
 	int rule_id = checkForRuleMatch(non_terminal_id);
 	std::vector< Token > current_rule = rules_def_[ rule_id < 0 ? -rule_id-1 : rule_id ];
@@ -187,17 +226,36 @@ void SintaticAnalyser::expandNonTerminal(int non_terminal_id, SintaticTree& node
 
 int SintaticAnalyser::checkForRuleMatch(int non_terminal_id){
 
-	for( uint i = 0; i < rules_id_[-non_terminal_id].size(); i++){
+	static int x = 0;
 
+	for( uint i = 0; i < rules_id_[-non_terminal_id].size(); i++){
+		
 		uint rule_id = rules_id_[-non_terminal_id][i];
 		const Token& rule_init = rules_def_[rule_id][0];
+
+		if(x++ < 1000){
+			std::cout << "{ " << currentToken.token_ << ", " << currentToken.type_ << " }\n";
+			std::cout << rule_id << ": ";
+			for(auto h : rules_def_[rule_id])
+				std::cout << "{" << h.token_ << ", " << h.type_ << "}" << " ";
+			std::cout << std::endl;
+			std::cout << std::endl;
+		}
+		else{
+			std::cout << "------------------\n";
+			return 1;
+		}
 
 		if( rule_init.type_ > 0 && rule_init.type_ == currentToken.type_ ||
 			rule_init.type_ == 0 && rule_init.token_ == currentToken.token_ ||
 			rule_init.type_ < 0 && checkForRuleMatch( rule_init.type_ ) >= 0 ||
 			rule_init.type_ == 0 && rule_init.token_.empty() )
-			return rule_id;
+			{std::cout << "\n##1##\n";
+	
+			return rule_id;}
 	}
+	std::cout << "\n##2##\n";
+	
 	return -rules_id_[-non_terminal_id][0]-1;
 }
 

@@ -1,6 +1,6 @@
 POSTagger/**
 .vscode/**
 bin/**
-build/
+build/**
 *.txt
 compiler

@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <unordered_map>
 #include <iomanip>
@@ -10,7 +11,7 @@
 class Parser{
 
 public:
-    Parser();
+    Parser(const std::string& config_file);
     void parse(std::istream& in_stream);
     const std::vector< Token >& getTokenList();
 	void printGeneratedTable();
