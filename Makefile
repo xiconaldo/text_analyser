@@ -28,5 +28,5 @@ clean:
 	rm -f build/* $(EXEC)
 
 test:
-	./bin/POSTagger/run-Tagger.sh > output.txt < input.txt
-	./bin/compiler conf/grammar_v4.conf conf/sinonimos.txt < output.txt
+	@./bin/POSTagger/run-Tagger.sh > output.txt < input.txt
+	@./bin/compiler conf/grammar_v4.conf conf/sinonimos.txt tree < output.txt

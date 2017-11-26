@@ -26,9 +26,11 @@ class Changer{
 public:
     Changer(const std::string& config_file);
     void analyse(SintaticTree& root);
+    void swapNodes(SintaticTree& node);
     void search(SintaticTree& root);
     void printResults();
     bool success();
+    void print(SintaticTree& node);
     std::vector<std::string> split(const std::string& str, const std::string& delimiter = " ");
 };
 

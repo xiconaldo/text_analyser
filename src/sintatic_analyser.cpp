@@ -8,6 +8,14 @@ SintaticTree& SintaticTree::createNewChild(){
 	return this->children_.back();
 }
 
+SintaticTree::SintaticTree(){
+}
+
+SintaticTree::SintaticTree(const SintaticTree& other){
+	children_ = other.children_;
+	token_ = other.token_;
+}
+
 void SintaticTree::print(){
 	static int depth = -1;
 	static std::vector<int> path;

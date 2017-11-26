@@ -76,13 +76,62 @@ Changer::Changer(const std::string& config_file){
 void Changer::analyse(SintaticTree& root){
 
     try{
-        search(root);
+		search(root);
+		swapNodes(root);
+		std::cout << std::endl;
+		print(root);
+		std::cout << std::endl;
     }
     catch( SemanticErrorException err){
         std::ostringstream ss;
         ss << "At line " << err.line_ << ": " << err.description_;
         error_info_.push_back(ss.str());
     }
+}
+
+void Changer::swapNodes(SintaticTree& node){
+
+
+	struct SwapClass{
+		SintaticTree* p1;
+		SintaticTree* p2;
+		SintaticTree s1;
+		SintaticTree s2;
+		int lp1;
+		int lp2;
+
+		void operator()(SintaticTree& node){
+
+			for(uint i = 0; i < node.children_.size(); i++){
+				if(node.children_[i].token_.type_ == -2){
+					p1 = &node;
+					lp1 = i;
+					s1 = node.children_[i];
+					break;
+				}
+				else if(node.children_[i].token_.type_ == -11){
+					p2 = &node;
+					lp2 = i;
+					s2 = node.children_[i];
+					break;
+				}
+			}
+
+			for(uint i = 0; i < node.children_.size(); i++){
+				operator()(node.children_[i]);
+			}
+		}
+	};
+
+	SwapClass myFunctor;
+	myFunctor(node);
+
+	myFunctor.p1->children_[myFunctor.lp1] = myFunctor.s2;
+	myFunctor.p2->children_[myFunctor.lp2] = myFunctor.s1;
+
+	SintaticTree t;
+	t.token_ = { 31, ",", 0 };
+	myFunctor.p1->children_[myFunctor.lp1].children_.push_back( t );
 
 }
 
@@ -136,14 +185,6 @@ void Changer::search(SintaticTree& node){
 			}
 		}
 	}
-
-	if(!node.token_.token_.empty())
-		std::cout << node.token_.token_.substr(0) << " ";
-  
-    for(uint i = 0; i < node.children_.size(); i++){
-        search(node.children_[i]);
-    }
-
 }
 
 void Changer::printResults(){
@@ -157,6 +198,16 @@ void Changer::printResults(){
 
 bool Changer::success(){
 	return error_info_.empty();
+}
+
+void Changer::print(SintaticTree& node){
+
+	if(!node.token_.token_.empty())
+		std::cout << node.token_.token_.substr(0) << " ";
+  
+    for(uint i = 0; i < node.children_.size(); i++){
+        print(node.children_[i]);
+    }
 }
 
 std::vector<std::string> Changer::split(const std::string& str, const std::string& delimiter){
