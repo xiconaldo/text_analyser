@@ -142,23 +142,23 @@ SintaticAnalyser::SintaticAnalyser(const std::string& config_file){
 	
 	// std::cout << "\n";
 
-	int h = 0;
-	for(auto x : rules_id_){
-		std::cout << h++ << " ";
-		for( auto y : x ){
-			std::cout << y << " ";
-		}
-		std::cout << std::endl;
-	}
+	// int h = 0;
+	// for(auto x : rules_id_){
+	// 	std::cout << h++ << " ";
+	// 	for( auto y : x ){
+	// 		std::cout << y << " ";
+	// 	}
+	// 	std::cout << std::endl;
+	// }
 
-	h = 0;
-	for(auto x : rules_def_){
-		std::cerr << h++ << " # ";
-		for( auto y : x ){
-			std::cout << "{ " << y.token_ << ", " << y.type_ << " } ";
-		}
-		std::cout << std::endl;
-	}
+	// h = 0;
+	// for(auto x : rules_def_){
+	// 	std::cerr << h++ << " # ";
+	// 	for( auto y : x ){
+	// 		std::cout << "{ " << y.token_ << ", " << y.type_ << " } ";
+	// 	}
+	// 	std::cout << std::endl;
+	// }
 
 }
 
@@ -233,28 +233,25 @@ int SintaticAnalyser::checkForRuleMatch(int non_terminal_id){
 		uint rule_id = rules_id_[-non_terminal_id][i];
 		const Token& rule_init = rules_def_[rule_id][0];
 
-		if(x++ < 1000){
-			std::cout << "{ " << currentToken.token_ << ", " << currentToken.type_ << " }\n";
-			std::cout << rule_id << ": ";
-			for(auto h : rules_def_[rule_id])
-				std::cout << "{" << h.token_ << ", " << h.type_ << "}" << " ";
-			std::cout << std::endl;
-			std::cout << std::endl;
-		}
-		else{
-			std::cout << "------------------\n";
-			return 1;
-		}
+		// if(x++ < 1000){
+		// 	std::cout << "{ " << currentToken.token_ << ", " << currentToken.type_ << " }\n";
+		// 	std::cout << rule_id << ": ";
+		// 	for(auto h : rules_def_[rule_id])
+		// 		std::cout << "{" << h.token_ << ", " << h.type_ << "}" << " ";
+		// 	std::cout << std::endl;
+		// 	std::cout << std::endl;
+		// }
+		// else{
+		// 	std::cout << "------------------\n";
+		// 	return 1;
+		// }
 
 		if( rule_init.type_ > 0 && rule_init.type_ == currentToken.type_ ||
 			rule_init.type_ == 0 && rule_init.token_ == currentToken.token_ ||
 			rule_init.type_ < 0 && checkForRuleMatch( rule_init.type_ ) >= 0 ||
-			rule_init.type_ == 0 && rule_init.token_.empty() )
-			{std::cout << "\n##1##\n";
-	
-			return rule_id;}
+			rule_init.type_ == 0 && rule_init.token_.empty() )	
+			return rule_id;
 	}
-	std::cout << "\n##2##\n";
 	
 	return -rules_id_[-non_terminal_id][0]-1;
 }

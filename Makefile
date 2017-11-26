@@ -29,4 +29,4 @@ clean:
 
 test:
 	./bin/POSTagger/run-Tagger.sh > output.txt < input.txt
-	./bin/compiler conf/grammar_v3.conf tree < output.txt
+	./bin/compiler conf/grammar_v4.conf tree < output.txt
