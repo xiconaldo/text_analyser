@@ -79,7 +79,10 @@ void Changer::analyse(SintaticTree& root){
 		std::cout << "\nOriginal: ";
 		print(root, false);
 		search(root);
-		swapNodes(root);
+		
+		srand(time(NULL));
+		if(rand()%2) swapNodes(root);
+
 		std::cout << std::endl;
 		std::cout << "Changed: ";
 		print(root, true);
@@ -188,6 +191,10 @@ void Changer::search(SintaticTree& node){
 			}
 		}
 	}
+
+	for(uint i = 0; i < node.children_.size(); i++){
+        search(node.children_[i]);
+    }
 }
 
 void Changer::printResults(){

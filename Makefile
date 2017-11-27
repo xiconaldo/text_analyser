@@ -29,5 +29,5 @@ clean:
 
 test:
 	@./bin/POSTagger/run-Tagger.sh > tmp.txt < input/$(IN)
-	@./bin/compiler conf/grammar_v4.conf conf/sinonimos.txt < tmp.txt
+	@./bin/compiler conf/grammar_v4.conf conf/sinonimos.conf < tmp.txt
 	@rm tmp.txt
