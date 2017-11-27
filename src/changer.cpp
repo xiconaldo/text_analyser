@@ -75,6 +75,8 @@ Changer::Changer(const std::string& config_file){
 
 void Changer::analyse(SintaticTree& root){
 
+	SintaticTree aux = root;
+
     try{
 		std::cout << "\nOriginal: ";
 		print(root, false);
@@ -87,6 +89,8 @@ void Changer::analyse(SintaticTree& root){
 		std::cout << "Changed: ";
 		print(root, true);
 		std::cout << std::endl;
+
+		root = aux;
     }
     catch( SemanticErrorException err){
         std::ostringstream ss;
