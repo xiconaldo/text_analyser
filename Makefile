@@ -29,15 +29,15 @@ clean:
 
 tree:
 	@./bin/POSTagger/run-Tagger.sh > tmp.txt < input/$(IN)
-	@./bin/compiler conf/grammar_v4.conf conf/sinonimos.conf tree < tmp.txt
+	@./bin/compiler conf/grammar_v$(V).conf conf/sinonimos.conf tree < tmp.txt
 	@rm tmp.txt
 
 symbol:
 	@./bin/POSTagger/run-Tagger.sh > tmp.txt < input/$(IN)
-	@./bin/compiler conf/grammar_v4.conf conf/sinonimos.conf symbol < tmp.txt
+	@./bin/compiler conf/grammar_v$(V).conf conf/sinonimos.conf symbol < tmp.txt
 	@rm tmp.txt
 
 simple:
 	@./bin/POSTagger/run-Tagger.sh > tmp.txt < input/$(IN)
-	@./bin/compiler conf/grammar_v4.conf conf/sinonimos.conf < tmp.txt
+	@./bin/compiler conf/grammar_v$(V).conf conf/sinonimos.conf < tmp.txt
 	@rm tmp.txt

@@ -2,6 +2,8 @@
 
 Changer::Changer(const std::string& config_file){
 
+	srand(time(NULL));
+
 	std::ifstream config{ config_file };
 	if(!config.is_open()){
 		std::cerr << "Can't open file " << config_file;
@@ -82,7 +84,6 @@ void Changer::analyse(SintaticTree& root){
 		print(root, false);
 		search(root);
 		
-		srand(time(NULL));
 		if(rand()%2) swapNodes(root);
 
 		std::cout << std::endl;
@@ -139,9 +140,14 @@ void Changer::swapNodes(SintaticTree& node){
 	myFunctor.p1->children_[myFunctor.lp1] = myFunctor.s2;
 	myFunctor.p2->children_[myFunctor.lp2] = myFunctor.s1;
 
-	SintaticTree t;
-	t.token_ = { 31, ",", 0 };
-	myFunctor.p1->children_[myFunctor.lp1].children_.push_back( t );
+	if(node.children_[1].token_.token_ == ","){
+		node.children_.erase( node.children_.begin() + 1);
+	}
+	else{
+		SintaticTree t;
+		t.token_ = { 31, ",", 0 };
+		myFunctor.p1->children_[myFunctor.lp1].children_.push_back( t );
+	}
 
 }
 
@@ -154,7 +160,6 @@ void Changer::search(SintaticTree& node){
 
 			if(finded != word_list.end() ){
 
-				srand(time(NULL));
 				int r = rand()%word_list.size();
 				auto it = word_list.begin();
 				for(int i = 0; i < r; i++) it++;
@@ -170,7 +175,6 @@ void Changer::search(SintaticTree& node){
 
 			if(finded != word_list.end() ){
 
-				srand(time(NULL));
 				int r = rand()%word_list.size();
 				auto it = word_list.begin();
 				for(int i = 0; i < r; i++) it++;
@@ -186,7 +190,6 @@ void Changer::search(SintaticTree& node){
 
 			if(finded != word_list.end() ){
 
-				srand(time(NULL));
 				int r = rand()%word_list.size();
 				auto it = word_list.begin();
 				for(int i = 0; i < r; i++) it++;
