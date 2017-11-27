@@ -219,16 +219,25 @@ void Changer::print(SintaticTree& node, bool change){
 			std::cout << node.token_.token_ << " ";
 	}
 	else if(!node.token_.token_.empty()){
-		if(first && islower(node.token_.token_[0] ))
-			std::cout << (char)toupper(node.token_.token_[0]) << node.token_.token_.substr(1) << " ";
+		if( first){
+			if( node.token_.token_ == "," ){
+				// empty
+			}
+			else if(islower(node.token_.token_[0]) ){
+				std::cout << (char)toupper(node.token_.token_[0]) << node.token_.token_.substr(1) << " ";
+				first = false;
+			}
+			else {
+				first = false;
+				std::cout << node.token_.token_ << " ";
+			}
+		}
 		else if(node.token_.type_ != 30 && isupper(node.token_.token_[0] ) ){
 			std::cout << (char)tolower(node.token_.token_[0]) << node.token_.token_.substr(1) << " ";
 		}
-		else{
+		else {
 			std::cout << node.token_.token_ << " ";
 		}
-
-		first = false;
 	}
   
     for(uint i = 0; i < node.children_.size(); i++){
