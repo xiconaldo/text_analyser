@@ -99,8 +99,8 @@ void Changer::swapNodes(SintaticTree& node){
 
 
 	struct SwapClass{
-		SintaticTree* p1;
-		SintaticTree* p2;
+		SintaticTree* p1 = nullptr;
+		SintaticTree* p2 = nullptr;
 		SintaticTree s1;
 		SintaticTree s2;
 		int lp1;
@@ -109,13 +109,13 @@ void Changer::swapNodes(SintaticTree& node){
 		void operator()(SintaticTree& node){
 
 			for(uint i = 0; i < node.children_.size(); i++){
-				if(node.children_[i].token_.type_ == -2){
+				if(node.children_[i].token_.type_ == -2 && p1 == nullptr){
 					p1 = &node;
 					lp1 = i;
 					s1 = node.children_[i];
 					break;
 				}
-				else if(node.children_[i].token_.type_ == -11){
+				else if(node.children_[i].token_.type_ == -11 && p2 == nullptr){
 					p2 = &node;
 					lp2 = i;
 					s2 = node.children_[i];
